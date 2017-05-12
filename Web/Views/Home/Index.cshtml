@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Repo.EF.Models.Topic>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="message-header">
+    <h1>Message Board</h1>
+    <p class="lead">Latest Messages....</p>
+</div>
+@foreach(var topic in Model)
+{
+    <div>@topic.Body</div>
+}
+
+
+<div class="messages">
+    <div class="message row">
+        <div class="title h3">The Message</div>
+        <div class="date"></div>
+        <div class="message-body">Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel.</div>
+        <div class="toolbar">
+            <button class="btn-primary">Reply</button><button class="btn-warning">Delete</button>
+        </div>
+    </div>
+    <div class="message row">
+        <div class="title h3">The Message</div>
+        <div class="date"></div>
+        <div class="message-body">Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel.</div>
+        <div class="toolbar">
+            <button class="btn-primary">Reply</button><button class="btn-warning">Delete</button>
+        </div>
+    </div>
+    <div class="message row">
+        <div class="title h3">The Message</div>
+        <div class="date"></div>
+        <div class="message-body">Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel.</div>
+        <div class="toolbar">
+            <button class="btn-primary">Reply</button><button class="btn-warning">Delete</button>
+        </div>
+    </div>
+    <div class="message row">
+        <div class="title h3">The Message</div>
+        <div class="date"></div>
+        <div class="message-body">Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel.</div>
+        <div class="toolbar">
+            <button class="btn-primary">Reply</button><button class="btn-warning">Delete</button>
+        </div>
+    </div>
+    <div class="message row">
+        <div class="title h3">The Message</div>
+        <div class="date"></div>
+        <div class="message-body">Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel.</div>
+        <div class="toolbar">
+            <button class="btn-primary">Reply</button><button class="btn-warning">Delete</button>
+        </div>
+    </div>
+</div>

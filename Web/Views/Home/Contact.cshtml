@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Contact Us";
+}
+@section scripts{
+    
+<script src="~/Scripts/jquery.validate.min.js"></script>    
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    }
+
+<form method="post">
+    <label>Name</label>
+    <input type="text" name="name" val-required="true" data-val="true" data-val-required="*"/>
+    <span data-valmsg-for="name" data-valmsg-replace="true"></span>
+    <label>Email</label>
+    <input type="email" name="email" val-required="true" data-val="true" data-val-required="*"/>
+    <span data-valmsg-for="email" data-valmsg-replace="true"></span>
+    <label>Message</label>
+    <input type="text" name="message" val-required="true" data-val="true" data-val-required="*"/>
+    <span data-valmsg-for="message" data-valmsg-replace="true"></span>
+    <button type="submit">Send</button>
+    @if (ViewBag?.MailSent == true)
+    {
+        <div>MailSent!</div>
+    }
+</form>
