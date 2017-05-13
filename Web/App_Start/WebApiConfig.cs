@@ -17,7 +17,9 @@ namespace Web.App_Start
             jsonFormatter.SerializerSettings.ContractResolver =
               new CamelCasePropertyNamesContractResolver();
 
-            config.Routes.MapHttpRoute(
+			config.Formatters.Remove(config.Formatters.XmlFormatter);
+
+			config.Routes.MapHttpRoute(
                 name: "RepliesApi",
                 routeTemplate: "api/topics/{topicid}/replies/{id}",
                 defaults: new { controller = "replies", id = RouteParameter.Optional }
