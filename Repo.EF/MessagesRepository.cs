@@ -70,6 +70,18 @@ namespace Repo.EF
 			return result;
 		}
 
+		public void AddReply(Reply reply)
+		{
+			try
+			{
+				_context.Replies.Add(reply);
+			}
+			catch (Exception)
+			{
+				//ignore
+			}
+		}
+
 		public bool Commit()
 		{
 			try

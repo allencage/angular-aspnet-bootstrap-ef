@@ -14,12 +14,9 @@
     <div>Number of messages: {{data.topics.length}}</div>
     <div class="messages">
         <div class="message row" ng-repeat="i in data.topics">
-            <div class="title h3">{{i.title}}</div>
+            <a ng-href="#/newtopic/{{i.id}}">{{i.title}}</a>
             <div class="date">{{i.created | date:"medium"}}</div>
             <div class="message-body">{{i.body}}</div>
-            <div class="toolbar">
-                <button class="btn-primary">Reply</button><button class="btn-warning">Delete</button>
-            </div>
         </div>
     </div>
 </div>

@@ -1,4 +1,5 @@
 ﻿using Repo.EF;
+using Repo.EF.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,17 @@ namespace Web.Controllers
 		{
 			var results = _repo.GetReplyFromTopicById(topicId, id);
 			return Ok(results);
+		}
+
+		public IHttpActionResult Post([FromUri]int topicId, [FromBody]Reply reply)
+		{
+			if (reply == null) return BadRequest();
+			reply.TopicId = topicId;
+			reply.Created = DateTime.UtcNow;
+
+			_repo.AddReply(reply);
+			if(!_repo.Commit()) return BadRequest();
+			return Created("", reply);
 		}
     }
 }

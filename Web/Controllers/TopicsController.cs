@@ -35,6 +35,8 @@ namespace Web.Controllers
 
 		public IHttpActionResult Post([FromBody]Topic topic)
 		{
+			if (topic == null) return BadRequest();
+
 			topic.Created = DateTime.UtcNow;
 			_repo.AddTopic(topic);
 			if (!_repo.Commit()) return BadRequest();

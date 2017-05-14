@@ -15,5 +15,6 @@ namespace Repo.EF
 		Reply GetReplyById(int id);
 		Reply GetReplyFromTopicById(int topicId, int id);
 		bool Commit();
+		void AddReply(Reply reply);
 	}
 }

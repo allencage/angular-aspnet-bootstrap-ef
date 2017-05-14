@@ -35,8 +35,9 @@ module.factory('dataService', function ($http, $q) {
 
         var deferred = $q.defer();
 
-        $http.post('api/topics/', newTopic)
-            .then(function (result) {
+        $http.post('/api/topics/', newTopic)
+            .then(
+            function (result) {
                 //success
                 var newlyCreatedTopic = result.data;
                 _topics.splice(0, 0, newlyCreatedTopic);
@@ -50,11 +51,85 @@ module.factory('dataService', function ($http, $q) {
         return deferred.promise;
     }
 
+    function _findTopic(id) {
+        var found = null;
+
+        $.each(_topics, function (i, item) {
+            if (item.id == id)
+                found = item;
+            return found;
+        });
+
+        return found;
+    }
+
+    function _returnTopic(deferred, id) {
+        //var topic = _findTopic(id);
+        //if (topic) {
+        //    deferred.resolve(topic);
+        //} else {
+        //    deferred.reject();
+        //}
+    }
+
+    var _getTopicById = function (id) {
+
+        var deferred = $q.defer();
+
+        if (_isReady()) {
+            var topic = _findTopic(id);
+            if (topic) {
+                deferred.resolve(topic);
+            } else {
+                deferred.reject();
+            }
+        }
+        else {
+            _getTopics()
+                .then(function () {
+                    //success
+                    var topic = _findTopic(id);
+                    if (topic) {
+                        deferred.resolve(topic);
+                    } else {
+                        deferred.reject();
+                    }
+                },
+                function () {
+                    //error
+                    deferred.reject();
+                })
+        }
+
+        return deferred.promise;
+    }
+
+    var _saveReply = function (topic, newReply) {
+
+        var deferred = $q.defer();
+
+        $http.post("/api/topics/" + topic.id + "/replies", newReply)
+            .then(
+            function (result) {
+                //success
+                if (topic.replies == null) topic.replies = [];
+                topic.replies.push(result.data);
+                deferred.resolve(result.data);
+            },
+            function () {
+                deferred.reject();
+            });
+
+        return deferred.promise;
+    }
+
     return {
         topics: _topics,
         getTopics: _getTopics,
         addTopic: _addTopic,
-        isReady: _isReady
+        isReady: _isReady,
+        getTopicById: _getTopicById,
+        saveReply: _saveReply
     };
 });
 
@@ -83,6 +158,7 @@ module.controller("topicsController", function ($scope, $route, $http, dataServi
     }
 
 });
+
 module.controller('newTopicController', function ($scope, $route, $http, $window, dataService) {
     $scope.newTopic = {};
 
@@ -101,6 +177,35 @@ module.controller('newTopicController', function ($scope, $route, $http, $window
     };
 });
 
+module.controller('singleTopicController', function ($scope, dataService, $window, $routeParams) {
+
+    $scope.topic = null;
+    $scope.newReply = {};
+    //it knows about the id because in the routeProvider I specified the id as the parameter
+    dataService.getTopicById($routeParams.id)
+        .then(
+        function (topic) {
+            //success
+            $scope.topic = topic;
+        },
+        function () {
+            //error <- there is something wrong with this shit, it gets executed all the time...!
+            $window.location = "#/";
+        });
+
+    $scope.addReply = function () {
+        dataService.saveReply($scope.topic, $scope.newReply)
+            .then(
+            function () {
+                $scope.newReply.body = "";
+            },
+            function () {
+                alert("could not save reply");
+            });
+    }
+
+});
+
 module.config(function ($routeProvider) {
     $routeProvider
         .when('/', {
@@ -111,8 +216,13 @@ module.config(function ($routeProvider) {
             templateUrl: '/templates/newTopicView.html',
             controller: 'newTopicController'
         })
+        .when('/newtopic/:id', {
+            templateUrl: '/templates/singleTopicView.html',
+            controller: 'singleTopicController'
+        })
         .otherwise({ redirectTo: '/' });
 });
+
 module.config(['$locationProvider', function ($locationProvider) {
     $locationProvider.hashPrefix('');
 }]);
